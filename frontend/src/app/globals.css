@@ -323,9 +323,6 @@
     background: rgba(255, 255, 255, 0.2);
   }
 
-  .grecaptcha-badge { 
-    visibility: hidden; 
-  }
 }
 
 @media print {

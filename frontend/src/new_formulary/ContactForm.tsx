@@ -17,7 +17,6 @@ import {
   saveRateLimitState,
   type ContactSubmission
 } from "./config/contact";
-
 export default function ContactForm() {
   const [formData, setFormData] = useState<ContactSubmission>({
     name: "",
@@ -132,7 +131,7 @@ export default function ContactForm() {
     <div className="glassmorphism p-10 rounded-[2.5rem] border border-blue-500/30 bg-blue-500/[0.03] group relative overflow-hidden">
       <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-purple-600/10 blur-[60px] group-hover:bg-purple-600/20 transition-colors" />
 
-      <h3 className="text-lg font-bold uppercase tracking-widest italic text-blue-400 mb-2">Solicita una demo</h3>
+      <h2 className="text-lg font-bold uppercase tracking-widest italic text-blue-300 mb-2">Solicita una demo</h2>
       <p className="text-gray-300 mb-8 text-sm leading-relaxed">
         Déjanos tus datos y el escenario que quieres simular. Si quieres añadir contexto, usa el mensaje opcional y lo incluiremos en el correo preparado.
       </p>
@@ -235,7 +234,7 @@ export default function ContactForm() {
           )}
         </button>
 
-        <p className="text-xs text-gray-500 leading-relaxed">
+        <p className="text-xs text-gray-400 leading-relaxed">
           Puedes revisar el formulario con calma y volver a la home desde{' '}
           <Link href="/" className="text-blue-300 hover:text-blue-200 underline underline-offset-4">
             la página principal

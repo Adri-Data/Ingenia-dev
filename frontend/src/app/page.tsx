@@ -25,6 +25,9 @@ import {
   User
 } from "lucide-react";
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const logoSrc = `${basePath}/logo.jpeg`;
+
 export default function Home() {
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-[#020617] selection:bg-blue-500/30 text-white font-sans">
@@ -38,7 +41,7 @@ export default function Home() {
       {/* Header */}
       <nav className="relative z-50 flex w-full items-center justify-between py-7 px-7">
         <div className="flex items-center space-x-3">
-          <Image src="/logo.jpeg" alt="Ingenia Logo" width={44} height={44} className="rounded-full object-cover" />
+          <Image src={logoSrc} alt="Ingenia Logo" width={44} height={44} className="rounded-full object-cover" />
           <span className="text-2xl font-bold tracking-tight">Ingenia</span>
         </div>
         <div className="hidden lg:flex items-center space-x-10 text-lg font-medium text-gray-400">

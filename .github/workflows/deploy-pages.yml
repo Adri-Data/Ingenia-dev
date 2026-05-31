@@ -1,0 +1,52 @@
+name: Build and deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+    inputs:
+      base_path:
+        description: 'Optional base path for deployment (e.g. /Ingenia-dev)'
+        required: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_BASE_PATH: /Ingenia-dev
+    permissions:
+      pages: write
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Set NEXT_PUBLIC_BASE_PATH (optional)
+        run: |
+          if [ "${{ github.event.inputs.base_path }}" != "" ]; then
+            echo "NEXT_PUBLIC_BASE_PATH=${{ github.event.inputs.base_path }}" >> $GITHUB_ENV
+          fi
+
+      - name: Install and build frontend
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+
+      - name: Upload static content for Pages
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: frontend/out
+
+  deploy:
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1

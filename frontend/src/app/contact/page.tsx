@@ -1,8 +1,11 @@
 import ContactForm from '@/new_formulary/ContactForm';
 import Image from 'next/image';
 import Link from 'next/link';
+import PromptExamples from '../../new_formulary/PromptExamples';
 
 const pageShell = 'relative min-h-screen overflow-x-hidden bg-[#020617] selection:bg-blue-500/30 text-white font-sans';
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+const logoSrc = `${basePath}/logo.jpeg`;
 
 export default function ContactPage() {
   return (
@@ -13,7 +16,7 @@ export default function ContactPage() {
 
       <nav className="relative z-50 flex w-full items-center justify-between py-7 px-7">
         <div className="flex items-center space-x-3">
-          <Image src="/logo.jpeg" alt="Ingenia Logo" width={44} height={44} className="rounded-full object-cover" />
+          <Image src={logoSrc} alt="Ingenia Logo" width={44} height={44} className="rounded-full object-cover" />
           <span className="text-2xl font-bold tracking-tight">Ingenia</span>
         </div>
         <Link href="/" className="px-5 py-2.5 bg-white/10 border border-white/10 text-white rounded-lg font-semibold hover:bg-white/15 transition-all">
@@ -35,16 +38,20 @@ export default function ContactPage() {
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm text-gray-200">
               <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3">
                 <p className="font-semibold text-white">¿Tienes una línea de producción?</p>
-                <p className="text-gray-400 text-xs mt-1">Te ayudamos a observar su comportamiento y variabilidad.</p>
+                <p className="text-gray-300 text-xs mt-1">Te ayudamos a observar su comportamiento y variabilidad.</p>
               </div>
               <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3">
                 <p className="font-semibold text-white">¿Gestionas una fábrica o planta?</p>
-                <p className="text-gray-400 text-xs mt-1">Analizamos capacidad, flujo y posibles puntos de mejora.</p>
+                <p className="text-gray-300 text-xs mt-1">Analizamos capacidad, flujo y posibles puntos de mejora.</p>
               </div>
               <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3">
                 <p className="font-semibold text-white">¿Quieres validar tu capacidad?</p>
-                <p className="text-gray-400 text-xs mt-1">Contrasta escenarios antes de tomar decisiones de inversión.</p>
+                <p className="text-gray-300 text-xs mt-1">Contrasta escenarios antes de tomar decisiones de inversión.</p>
               </div>
+            </div>
+
+            <div className="mt-8 lg:mt-10">
+              <PromptExamples />
             </div>
           </div>
 
