@@ -1,0 +1,43 @@
+:root {
+  --ingenia-primary: rgb(79, 70, 229);
+  --ingenia-primary-stronger: rgb(67, 56, 202);
+  --ingenia-primary-subtle: rgba(79, 70, 229, 0.1);
+  --ingenia-primary-glow: rgba(79, 70, 229, 0.8);
+
+  --ingenia-bg-root: #09090B;
+  --ingenia-bg-default: #111113;
+  --ingenia-bg-higher: #18181B;
+  --ingenia-bg-highest: #27272A;
+  --ingenia-bg-surface: rgba(255, 255, 255, 0.03);
+
+  --ingenia-outline-dimmer: rgba(255, 255, 255, 0.05);
+  --ingenia-outline-default: rgba(255, 255, 255, 0.08);
+  --ingenia-outline-hover: rgba(255, 255, 255, 0.15);
+
+  --ingenia-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --ingenia-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --ingenia-shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.5);
+  --ingenia-shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
+  --ingenia-shadow-glow: 0 18px 38px -24px var(--ingenia-primary-glow);
+
+  --ingenia-font-sans: "Inter", system-ui, sans-serif;
+  --ingenia-font-mono: "JetBrains Mono", monospace;
+
+  --ingenia-radius-sm: 6px;
+  --ingenia-radius-md: 12px;
+  --ingenia-radius-lg: 16px;
+  --ingenia-radius-xl: 20px;
+  --ingenia-radius-2xl: 28px;
+  --ingenia-radius-full: 9999px;
+  --ingenia-radius-bubble: 20px;
+
+  --ingenia-duration-100: 100ms;
+  --ingenia-duration-200: 200ms;
+  --ingenia-duration-300: 300ms;
+
+  --ingenia-z-overlay: 40;
+  --ingenia-z-panel: 30;
+  --ingenia-z-header: 20;
+  --ingenia-progress-panel-width: 18rem;
+  --ingenia-progress-panel-offset: 19rem;
+}
