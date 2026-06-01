@@ -4,6 +4,7 @@ import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import emailjs from "@emailjs/browser";
+type Locale = "es" | "en";
 import {
   buildContactPayload,
   CONTACT_EMAILJS_PUBLIC_KEY,
@@ -17,7 +18,63 @@ import {
   saveRateLimitState,
   type ContactSubmission
 } from "./config/contact";
-export default function ContactForm() {
+
+const copy = {
+  es: {
+    title: "Solicita una demo",
+    intro: "Déjanos tus datos y el escenario que quieres simular. Si quieres añadir contexto, usa el mensaje opcional y lo incluiremos en el correo preparado.",
+    name: "Nombre *",
+    namePlaceholder: "Tu nombre",
+    email: "Email *",
+    emailPlaceholder: "tu@email.com",
+    company: "Empresa",
+    companyPlaceholder: "Nombre de tu empresa",
+    scenario: "Escenario a simular *",
+    scenarioPlaceholder: "Ejemplo: línea de ensamblaje con 4 estaciones, colas en estación 3 y demanda variable por turno",
+    message: "Mensaje adicional opcional",
+    messagePlaceholder: "Notas de contexto, prioridades o cualquier detalle útil",
+    submit: "Enviar solicitud",
+    sending: "Enviando...",
+    success: "¡Gracias! Hemos enviado tu solicitud.",
+    error: "No se pudo enviar la solicitud. Intenta de nuevo.",
+    missingFields: "Por favor completa nombre, email y escenario.",
+    missingEmailJs: "Falta configurar EmailJS: NEXT_PUBLIC_EMAILJS_SERVICE_ID, NEXT_PUBLIC_EMAILJS_TEMPLATE_ID y NEXT_PUBLIC_EMAILJS_PUBLIC_KEY.",
+    cooldown: "Has superado el límite diario. Vuelve mañana.",
+    perMinute: (seconds: number) => `Solo puedes enviar una solicitud por minuto. Espera ${seconds} segundos.`,
+    daily: "Límite temporal activo hasta mañana. Podrás volver a enviar cuando se reinicie el bloqueo.",
+    backHome: "Puedes revisar el formulario con calma y volver a la home desde",
+    backHomeLink: "la página principal",
+    backHomeEnd: "."
+  },
+  en: {
+    title: "Request a demo",
+    intro: "Leave us your details and the scenario you want to simulate. If you want to add context, use the optional message and we will include it in the prepared email.",
+    name: "Name *",
+    namePlaceholder: "Your name",
+    email: "Email *",
+    emailPlaceholder: "you@email.com",
+    company: "Company",
+    companyPlaceholder: "Your company name",
+    scenario: "Scenario to simulate *",
+    scenarioPlaceholder: "Example: assembly line with 4 stations, queues at station 3 and variable demand per shift",
+    message: "Optional additional message",
+    messagePlaceholder: "Context notes, priorities or any useful detail",
+    submit: "Send request",
+    sending: "Sending...",
+    success: "Thanks! We have sent your request.",
+    error: "Could not send the request. Please try again.",
+    missingFields: "Please complete name, email and scenario.",
+    missingEmailJs: "EmailJS is not configured: NEXT_PUBLIC_EMAILJS_SERVICE_ID, NEXT_PUBLIC_EMAILJS_TEMPLATE_ID and NEXT_PUBLIC_EMAILJS_PUBLIC_KEY are required.",
+    cooldown: "You have exceeded the daily limit. Come back tomorrow.",
+    perMinute: (seconds: number) => `You can only send one request per minute. Wait ${seconds} seconds.`,
+    daily: "A temporary limit is active until tomorrow. You will be able to send again when the block resets.",
+    backHome: "You can review the form at your own pace and return to the home page from",
+    backHomeLink: "the main page",
+    backHomeEnd: "."
+  }
+} as const;
+export default function ContactForm({ locale = "es" }: { locale?: Locale }) {
+  const ui = copy[locale];
   const [formData, setFormData] = useState<ContactSubmission>({
     name: "",
     email: "",
@@ -64,12 +121,12 @@ export default function ContactForm() {
     e.preventDefault();
 
     if (!formData.name || !formData.email || !formData.scenario) {
-      setError("Por favor completa nombre, email y escenario.");
+      setError(ui.missingFields);
       return;
     }
 
     if (!CONTACT_EMAILJS_SERVICE_ID || !CONTACT_EMAILJS_TEMPLATE_ID || !CONTACT_EMAILJS_PUBLIC_KEY) {
-      setError("Falta configurar EmailJS: NEXT_PUBLIC_EMAILJS_SERVICE_ID, NEXT_PUBLIC_EMAILJS_TEMPLATE_ID y NEXT_PUBLIC_EMAILJS_PUBLIC_KEY.");
+      setError(ui.missingEmailJs);
       return;
     }
 
@@ -78,7 +135,7 @@ export default function ContactForm() {
 
     if (rateLimitState.blockedUntil && rateLimitState.blockedUntil > now) {
       setCooldownUntil(rateLimitState.blockedUntil);
-      setError("Has superado el límite diario. Vuelve mañana.");
+      setError(ui.cooldown);
       return;
     }
 
@@ -88,7 +145,7 @@ export default function ContactForm() {
     if (recentAttempts.length > 0) {
       const lastAttempt = recentAttempts[recentAttempts.length - 1];
       const remainingMs = CONTACT_RATE_LIMIT_MIN_INTERVAL_MS - (now - lastAttempt);
-      setError(`Solo puedes enviar una solicitud por minuto. Espera ${Math.ceil(remainingMs / 1000)} segundos.`);
+      setError(ui.perMinute(Math.ceil(remainingMs / 1000)));
       return;
     }
 
@@ -121,7 +178,7 @@ export default function ContactForm() {
       setFormData({ name: "", email: "", company: "", scenario: "", message: "" });
       setTimeout(() => setSubmitted(false), 5000);
     } catch {
-      setError("No se pudo enviar la solicitud. Intenta de nuevo.");
+      setError(ui.error);
     } finally {
       setLoading(false);
     }
@@ -131,68 +188,68 @@ export default function ContactForm() {
     <div className="glassmorphism p-10 rounded-[2.5rem] border border-blue-500/30 bg-blue-500/[0.03] group relative overflow-hidden">
       <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-purple-600/10 blur-[60px] group-hover:bg-purple-600/20 transition-colors" />
 
-      <h2 className="text-lg font-bold uppercase tracking-widest italic text-blue-300 mb-2">Solicita una demo</h2>
+      <h2 className="text-lg font-bold uppercase tracking-widest italic text-blue-300 mb-2">{ui.title}</h2>
       <p className="text-gray-300 mb-8 text-sm leading-relaxed">
-        Déjanos tus datos y el escenario que quieres simular. Si quieres añadir contexto, usa el mensaje opcional y lo incluiremos en el correo preparado.
+        {ui.intro}
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-gray-200 mb-2">Nombre *</label>
+            <label className="block text-sm font-semibold text-gray-200 mb-2">{ui.name}</label>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder="Tu nombre"
+              placeholder={ui.namePlaceholder}
               className="w-full px-4 py-3 rounded-lg bg-white/8 border border-white/15 text-white placeholder-gray-500 focus:border-blue-400 focus:bg-white/12 focus:outline-none transition-all"
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-200 mb-2">Email *</label>
+            <label className="block text-sm font-semibold text-gray-200 mb-2">{ui.email}</label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="tu@email.com"
+              placeholder={ui.emailPlaceholder}
               className="w-full px-4 py-3 rounded-lg bg-white/8 border border-white/15 text-white placeholder-gray-500 focus:border-blue-400 focus:bg-white/12 focus:outline-none transition-all"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-200 mb-2">Empresa</label>
+          <label className="block text-sm font-semibold text-gray-200 mb-2">{ui.company}</label>
           <input
             type="text"
             name="company"
             value={formData.company}
             onChange={handleChange}
-            placeholder="Nombre de tu empresa"
+            placeholder={ui.companyPlaceholder}
             className="w-full px-4 py-3 rounded-lg bg-white/8 border border-white/15 text-white placeholder-gray-500 focus:border-blue-400 focus:bg-white/12 focus:outline-none transition-all"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-200 mb-2">Escenario a simular *</label>
+          <label className="block text-sm font-semibold text-gray-200 mb-2">{ui.scenario}</label>
           <textarea
             name="scenario"
             value={formData.scenario}
             onChange={handleChange}
-            placeholder="Ejemplo: línea de ensamblaje con 4 estaciones, colas en estación 3 y demanda variable por turno"
+            placeholder={ui.scenarioPlaceholder}
             rows={4}
             className="w-full px-4 py-3 rounded-lg bg-white/8 border border-white/15 text-white placeholder-gray-500 focus:border-blue-400 focus:bg-white/12 focus:outline-none transition-all resize-none"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-200 mb-2">Mensaje adicional opcional</label>
+          <label className="block text-sm font-semibold text-gray-200 mb-2">{ui.message}</label>
           <textarea
             name="message"
             value={formData.message}
             onChange={handleChange}
-            placeholder="Notas de contexto, prioridades o cualquier detalle útil"
+            placeholder={ui.messagePlaceholder}
             rows={4}
             className="w-full px-4 py-3 rounded-lg bg-white/8 border border-white/15 text-white placeholder-gray-500 focus:border-blue-400 focus:bg-white/12 focus:outline-none transition-all resize-none"
           />
@@ -206,13 +263,13 @@ export default function ContactForm() {
 
         {submitted && (
           <div className="p-4 rounded-lg bg-green-500/15 border border-green-500/30 text-green-200 text-sm animate-pulse">
-            ¡Gracias! Hemos enviado tu solicitud.
+            {ui.success}
           </div>
         )}
 
         {cooldownUntil && cooldownUntil > Date.now() && (
           <div className="p-4 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-100 text-sm">
-            Límite temporal activo hasta mañana. Podrás volver a enviar cuando se reinicie el bloqueo.
+            {ui.daily}
           </div>
         )}
 
@@ -224,22 +281,22 @@ export default function ContactForm() {
           {loading ? (
             <>
               <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              <span>Enviando...</span>
+              <span>{ui.sending}</span>
             </>
           ) : (
             <>
-              <span>Enviar solicitud</span>
+              <span>{ui.submit}</span>
               <ArrowRight className="w-5 h-5" />
             </>
           )}
         </button>
 
         <p className="text-xs text-gray-400 leading-relaxed">
-          Puedes revisar el formulario con calma y volver a la home desde{' '}
+          {ui.backHome}{' '}
           <Link href="/" className="text-blue-300 hover:text-blue-200 underline underline-offset-4">
-            la página principal
+            {ui.backHomeLink}
           </Link>
-          .
+          {ui.backHomeEnd}
         </p>
       </form>
     </div>

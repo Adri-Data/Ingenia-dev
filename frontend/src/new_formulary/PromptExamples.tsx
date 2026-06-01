@@ -1,16 +1,29 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+
+type Locale = "es" | "en";
+
 type PromptExample = {
   id: string;
-  title: string;
-  label: string;
-  body: string;
+  title: Record<Locale, string>;
+  label: Record<Locale, string>;
+  body: Record<Locale, string>;
 };
 
 const examplePrompts: PromptExample[] = [
   {
     id: "mixing-line",
-    title: "Línea con dos productos y operador compartido",
-    label: "Ejemplo 1",
-    body: `Las piezas A llegan en pallets. Cada pallet contiene 10 unidades. Cada pallet llega siguiendo una distribución exponencial con un valor mínimo de 2 minutos y un valor máximo de 20 minutos. Las piezas B llegan cada 5 minutos.
+    title: {
+      es: "Línea con dos productos y operador compartido",
+      en: "Two-product line with a shared operator"
+    },
+    label: {
+      es: "Ejemplo 1",
+      en: "Example 1"
+    },
+    body: {
+      es: `Las piezas A llegan en pallets. Cada pallet contiene 10 unidades. Cada pallet llega siguiendo una distribución exponencial con un valor mínimo de 2 minutos y un valor máximo de 20 minutos. Las piezas B llegan cada 5 minutos.
 
 Las piezas A se procesan en MachineA con un tiempo de proceso de 5 minutos. Las piezas B se procesan en MachineB, cuyo tiempo de servicio es de 10 minutos. Ambas máquinas son operadas por el mismo operario.
 
@@ -18,13 +31,30 @@ Después, ambas piezas se ensamblan, con un tiempo de ensamblaje de 3 minutos po
 
 Simula 48 horas con 10 réplicas.
 
-Quiero conocer el throughput y la ocupación del operario y del AGV.`
+Quiero conocer el throughput y la ocupación del operario y del AGV.`,
+      en: `Parts A arrive on pallets. Each pallet contains 10 units. Each pallet arrives following an exponential distribution with a minimum value of 2 minutes and a maximum value of 20 minutes. Parts B arrive every 5 minutes.
+
+Parts A are processed in MachineA with a processing time of 5 minutes. Parts B are processed in MachineB, whose service time is 10 minutes. Both machines are operated by the same operator.
+
+Then, both parts are assembled, with an assembly time of 3 minutes per assembly. Finally, they are transported by an AGV to expedition, which takes 5 minutes, and are then expedited.
+
+Simulate 48 hours with 10 replications.
+
+I would like to know the throughput and the occupation of the operator and the AGV.`
+    }
   },
   {
     id: "multi-stage-manufacturing",
-    title: "Flujo multietapa con mantenimiento y re-trabajo",
-    label: "Ejemplo 2",
-    body: `Las piezas llegan una a una al sistema cada 1 minuto y primero se envían a un buffer de espera. Tras esperar 10 minutos, las piezas se transportan a la estación de procesamiento (tiempo de transporte: 2 minutos), donde cada pieza se procesa en una máquina única llamada Machine0101 con un tiempo de proceso de 4 minutos.
+    title: {
+      es: "Flujo multietapa con mantenimiento y re-trabajo",
+      en: "Multi-stage flow with maintenance and rework"
+    },
+    label: {
+      es: "Ejemplo 2",
+      en: "Example 2"
+    },
+    body: {
+      es: `Las piezas llegan una a una al sistema cada 1 minuto y primero se envían a un buffer de espera. Tras esperar 10 minutos, las piezas se transportan a la estación de procesamiento (tiempo de transporte: 2 minutos), donde cada pieza se procesa en una máquina única llamada Machine0101 con un tiempo de proceso de 4 minutos.
 
 Después, las piezas se transportan a la estación de corte. La operación de corte dura 3 minutos, y el desperdicio generado se almacena por separado. Tras el corte, las piezas se transportan a la estación de fresado (tiempo de transporte: 2 minutos) y se fresan con tiempos que siguen una distribución normal con media de 5 minutos y desviación estándar de 1 minuto.
 
@@ -38,13 +68,36 @@ La industria solo opera de 8:00 a 21:00. Hay una parada de mantenimiento planifi
 
 Simula 24 horas, solo una vez.
 
-Quiero conocer el throughput y dónde está mi cuello de botella.`
+Quiero conocer el throughput y dónde está mi cuello de botella.`,
+      en: `Parts arrive one by one to the system every 1 minute and are first sent to a waiting buffer. After waiting 10 minutes, the parts are transported to the processing station (transport time: 2 minutes), where each part is processed by a single machine called Machine0101 with a 4-minute processing time.
+
+Then, the parts are transported to the cutting station. The cutting operation lasts 3 minutes, and the generated waste is stored separately. After cutting, the parts are transported to the milling station (transport time: 2 minutes) and milled for times following a normal distribution with a mean of 5 minutes and a standard deviation of 1 minute.
+
+Then, the parts are transported to the packing station (transport time: 1 minute), where the packing process lasts 2 minutes. Packed parts are moved to a waiting area (transport time: 1 minute) before being unpacked in the unpacking station, which takes 2 minutes.
+
+After unpacking, the parts are transported to the assembly station (transport time: 2 minutes) and assembled in 5 minutes. They are assembled with pieces B, which arrive one by one every 5 minutes and are routed directly to the assembly station (transport time: 10 minutes).
+
+Finally, the parts go to an inspection station, where the inspection lasts 2 minutes. 50% of the inspected parts are rejected and discarded, while the remaining 50% are stored as finished products.
+
+The industry is only open from 8:00 to 21:00. There is a planned maintenance stop for Machine0101 of 15 minutes every day.
+
+Simulate 24 hours, only once.
+
+I would like to know the throughput and where my bottleneck is.`
+    }
   },
   {
     id: "pump-repair",
-    title: "Taller de reparación de bombas centrífugas",
-    label: "Ejemplo 3",
-    body: `Las bombas centrífugas de un área de mantenimiento de refinería llegan a un flujo de reparación tras ser retiradas del servicio por alarmas de vibración, fugas en sellos, alarmas de temperatura en rodamientos o requisitos de overhaul programado.
+    title: {
+      es: "Taller de reparación de bombas centrífugas",
+      en: "Centrifugal pump repair workflow"
+    },
+    label: {
+      es: "Ejemplo 3",
+      en: "Example 3"
+    },
+    body: {
+      es: `Las bombas centrífugas de un área de mantenimiento de refinería llegan a un flujo de reparación tras ser retiradas del servicio por alarmas de vibración, fugas en sellos, alarmas de temperatura en rodamientos o requisitos de overhaul programado.
 
 Las solicitudes de reparación llegan siguiendo una distribución exponencial con un tiempo medio entre llegadas de 4 horas. Cada solicitud representa una bomba centrífuga.
 Cuando llega una bomba, primero espera en un buffer de recepción. Luego, un técnico de confiabilidad realiza una inspección y diagnóstico inicial. El tiempo de diagnóstico sigue una distribución triangular con mínimo de 4 horas, valor más probable de 6 horas y máximo de 8 horas. Hay dos técnicos de confiabilidad disponibles.
@@ -88,11 +141,79 @@ Quiero conocer:
 4. Utilización de técnicos, mecánicos, bancos de reparación, máquina de balanceo y banco de prueba.
 5. El cuello de botella principal del sistema.
 6. El porcentaje de bombas retrasadas por falta de mecánicos, bancos de reparación, disponibilidad de la máquina de balanceo o disponibilidad del banco de prueba final.
-7. Recomendaciones para mejorar el throughput y reducir el tiempo de ciclo.`
+7. Recomendaciones para mejorar el throughput y reducir el tiempo de ciclo.`,
+      en: `Centrifugal pumps from a refinery maintenance area arrive to a repair workflow after being removed from service due to vibration alarms, seal leakage, bearing temperature alarms, or scheduled overhaul requirements.
+
+Pump repair requests arrive following an exponential distribution with a mean interarrival time of 4 hours. Each repair request represents one centrifugal pump.
+When a pump arrives, it first waits in a receiving buffer. Then, a reliability technician performs an initial inspection and diagnosis. The diagnosis time follows a triangular distribution with a minimum of 4 hours, a most likely value of 6 hours, and a maximum of 8 hours. There are two reliability technicians available.
+After diagnosis, pumps are classified into three categories:
+- 50% require minor repair.
+- 35% require major repair.
+- 15% require external vendor repair.
+
+Minor repairs are routed to the mechanical repair shop. Minor repair time follows a triangular distribution with a minimum of 24 hours, a most likely value of 40 hours, and a maximum of 56 hours. Minor repairs require one mechanic and one repair bench.
+Major repairs are also routed to the mechanical repair shop. Major repair time follows a triangular distribution with a minimum of 40 hours, a most likely value of 60 hours, and a maximum of 80 hours. Major repairs require one mechanic and one repair bench.
+External vendor repairs require preparation and shipment. Preparation time is 2 hours and requires one technician. The external repair lead time follows a normal distribution with a mean of 80 hours and a standard deviation of 20 hours. After the pump returns from the vendor, it goes to final inspection.
+
+The mechanical repair shop has:
+- 3 mechanics.
+- 2 repair benches.
+- 1 balancing machine.
+
+After minor or major repair, 40% of the pumps require rotor balancing before final testing. Balancing time follows a triangular distribution with a minimum of 2 hours, a most likely value of 3 hours, and a maximum of 4 hours. Balancing requires one mechanic and the balancing machine.
+
+All repaired pumps then go to a final test station. Final testing takes 90 minutes per pump and requires one technician and one test bench. There is only one test bench.
+
+During final testing:
+- 85% of pumps pass the test and are released to service.
+- 15% fail the test and must return to the mechanical repair shop for rework.
+
+Rework time follows a triangular distribution with a minimum of 2 hours, a most likely value of 5 hours, and a maximum of 10 hours. Rework requires one mechanic and one repair bench. After rework, the pump returns again to final testing.
+
+The maintenance shop operates from Monday to Friday, from 7:00 to 17:00, with a 1-hour lunch break from 12:00 to 13:00. No work is performed outside working hours, but pumps can continue waiting in buffers.
+
+The balancing machine has a planned maintenance stop every Friday from 13:00 to 15:00. The final test bench has an unplanned failure behavior with a mean time between failures of 80 operating hours and a repair time following a triangular distribution with a minimum of 1 hour, a most likely value of 2 hours, and a maximum of 4 hours.
+
+Simulate 365 calendar days with 20 replications.
+
+I would like to know:
+1. Total throughput, measured as pumps released to service.
+2. Average and maximum repair turnaround time.
+3. Average waiting time before diagnosis, repair, balancing, and final testing.
+4. Utilization of technicians, mechanics, repair benches, balancing machine, and test bench.
+5. The main bottleneck in the system.
+6. The percentage of pumps delayed by lack of mechanics, repair benches, balancing machine availability, or final test bench availability.
+7. Recommendations to improve throughput and reduce turnaround time.`
+    }
   }
 ];
 
-export default function PromptExamples() {
+export default function PromptExamples({ locale = "es" }: { locale?: Locale }) {
+  const [selectedPromptId, setSelectedPromptId] = useState<string | null>(null);
+
+  const selectedPrompt = useMemo(
+    () => examplePrompts.find((prompt) => prompt.id === selectedPromptId) ?? null,
+    [selectedPromptId]
+  );
+
+  useEffect(() => {
+    if (!selectedPromptId) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelectedPromptId(null);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedPromptId]);
+
   return (
     <div className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/[0.03] p-5 md:p-6">
       <div>
@@ -101,24 +222,56 @@ export default function PromptExamples() {
         <p className="text-sm text-gray-300 mt-2 max-w-2xl">Abre cada ejemplo para ver el nivel de detalle que esperamos.</p>
       </div>
 
-      <div className="mt-5 space-y-3">
+      <div className="mt-5 grid gap-3">
         {examplePrompts.map((prompt) => (
-          <details key={prompt.id} className="group rounded-2xl border border-white/10 bg-slate-950/30 overflow-hidden">
-            <summary className="list-none cursor-pointer px-4 py-4 md:px-5 md:py-5 flex items-center justify-between gap-4 text-left">
+          <button
+            key={prompt.id}
+            type="button"
+            onClick={() => setSelectedPromptId(prompt.id)}
+            className="group rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-4 text-left transition-all hover:bg-white/[0.06]"
+          >
+            <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-[11px] uppercase tracking-[0.28em] text-cyan-300 mb-1">{prompt.label}</p>
-                <h5 className="text-sm md:text-base font-semibold text-white leading-snug">{prompt.title}</h5>
+                <p className="text-[11px] uppercase tracking-[0.28em] text-cyan-300 mb-1">{prompt.label[locale]}</p>
+                <h5 className="text-sm font-semibold text-white leading-snug">{prompt.title[locale]}</h5>
               </div>
-              <span className="shrink-0 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-widest text-gray-200 group-open:text-blue-200">
-                Abrir
+              <span className="shrink-0 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-widest text-gray-200 group-hover:text-white">
+                {locale === "en" ? "Open" : "Abrir"}
               </span>
-            </summary>
-            <div className="border-t border-white/10 px-4 py-4 md:px-5 md:py-5">
-              <pre className="whitespace-pre-wrap text-sm leading-relaxed text-gray-200 font-sans">{prompt.body}</pre>
             </div>
-          </details>
+          </button>
         ))}
       </div>
+
+      {selectedPrompt ? (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 px-4 py-8 backdrop-blur-sm" onClick={() => setSelectedPromptId(null)}>
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={selectedPrompt.title[locale]}
+            className="w-full max-w-3xl rounded-[2rem] border border-white/10 bg-[#07111f] shadow-2xl shadow-black/60"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-4 border-b border-white/10 px-5 py-4 md:px-6 md:py-5">
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.28em] text-cyan-300 mb-1">{selectedPrompt.label[locale]}</p>
+                <h5 className="text-base md:text-lg font-semibold text-white leading-snug">{selectedPrompt.title[locale]}</h5>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedPromptId(null)}
+                className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold uppercase tracking-widest text-gray-200 transition-colors hover:bg-white/10 hover:text-white"
+              >
+                {locale === "en" ? "Close" : "Cerrar"}
+              </button>
+            </div>
+
+            <div className="px-5 py-5 md:px-6 md:py-6">
+              <pre className="max-h-[70vh] overflow-y-auto whitespace-pre-wrap text-sm leading-relaxed text-gray-200 font-sans">{selectedPrompt.body[locale]}</pre>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
