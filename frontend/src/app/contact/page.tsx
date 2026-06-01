@@ -27,12 +27,12 @@ export default function ContactPage() {
       <main className="relative z-10 px-6 pb-14 pt-2">
         <section className="mx-auto w-full max-w-6xl grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-10 items-start">
           <div className="pt-8 lg:pt-16">
-            <p className="text-blue-300 font-semibold uppercase tracking-[0.3em] text-xs mb-4">Solicitud de proyecto</p>
+            <p className="text-blue-300 font-semibold uppercase tracking-[0.3em] text-xs mb-4">Solicitud de feedback</p>
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.05] mb-5">
-              Compártenos tu flujo y te haremos llegar un informe profesional en aproximadamente 24 horas.
+              Ayúdame a mejorar mi TFM. Comparte el casos de uso que debería considerar y tratare de resolverlo en 24 horas.
             </h1>
             <p className="max-w-xl text-base md:text-lg text-gray-300 leading-relaxed">
-              Cuéntanos el contexto de tu operación con el mayor nivel de detalle posible. Si necesitas evaluar capacidad, detectar cuellos de botella o preparar una simulación, este es el punto de partida.
+              Si tienes experiencia en simulación, ingeniería industrial o IA, tu feedback es valioso. Cuéntame aspectos de la metodología, la implementación o casos de uso que no haya considerado.
             </p>
 
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm text-gray-200">

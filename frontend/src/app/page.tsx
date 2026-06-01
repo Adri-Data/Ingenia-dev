@@ -79,7 +79,7 @@ export default function Home() {
 
             <p className="text-xl text-blue-300 mb-4 font-semibold italic">Tu ingeniero de bolsillo.</p>
             <p className="max-w-2xl text-base md:text-lg text-gray-300 mb-8 leading-relaxed font-medium">
-              Ingenia ayuda a ingenieros, consultores industriales y responsables de operaciones a modelar procesos, detectar cuellos de botella y comparar escenarios con base cuantitativa, en minutos.
+              Este proyecto de TFM automatiza la generación de modelos de simulación de procesos industriales usando IA. Permite analizar escenarios, detectar cuellos de botella y generar informes técnicos en minutos.
             </p>
 
             <div className="mt-6 flex flex-col gap-3 w-full max-w-2xl">
@@ -346,13 +346,13 @@ export default function Home() {
 
             <div className="mb-16 rounded-[2rem] border border-blue-500/20 bg-gradient-to-br from-blue-500/10 via-blue-500/5 to-transparent p-8 md:p-10">
               <p className="text-gray-200 text-base md:text-lg leading-relaxed">
-                Ingenia sustituye decisiones basadas en estimaciones por simulaciones reales para procesos industriales. Permite evaluar escenarios antes de ejecutar cambios en planta y reducir el riesgo operativo y económico.
+                Este TFM desarrolla una solución que automatiza el modelado de simulación discreta de eventos. El objetivo es permitir a ingenieros evaluar escenarios operativos sin necesidad de conocimientos avanzados en simulación.
               </p>
               <p className="mt-5 text-gray-300 text-base md:text-lg leading-relaxed">
-                Las simulaciones son clave para detectar cuellos de botella, dimensionar recursos y priorizar mejoras. Sin embargo, su uso suele frenarse por tiempo, coste y carga técnica. Ingenia acelera ese trabajo para equipos de ingeniería y operaciones, con un flujo guiado y entregables listos para decidir.
+                La simulación es fundamental en ingeniería industrial, pero requiere tiempo y especialización. Este proyecto acelera el proceso mediante IA para generar modelos automáticamente, comparar escenarios y producir informes profesionales listos para decisiones.
               </p>
               <p className="mt-5 text-gray-300 text-base md:text-lg leading-relaxed">
-                El resultado es una toma de decisiones con base cuantitativa, análisis más rápidos e informes técnicos claros para alinear ingeniería, operaciones y dirección.
+                El resultado es un análisis cuantitativo accesible, reducción de tiempo en modelado y entregables profesionales que demuestran el valor académico y práctico del proyecto.
               </p>
             </div>
 
@@ -377,54 +377,6 @@ export default function Home() {
           </div>
         </section>
 
-        <SectionDivider />
-
-        <section id="sobre-nosotros" className="py-32 relative overflow-hidden">
-          <div className="absolute inset-0 bg-blue-600/[0.03] pointer-events-none" />
-          <div className="container mx-auto px-6 max-w-[96rem]">
-            <div className="text-center mb-20">
-              <h2 className="text-4xl md:text-5xl font-extrabold mb-6">
-                Quienes <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Somos</span>
-              </h2>
-              <p className="text-gray-400 max-w-3xl mx-auto mb-4 text-xl leading-relaxed">
-                Ingenia nace como un Trabajo Fin de Máster en Ingeniería Industrial y evoluciona como una solución aplicada de simulación orientada a decisiones operativas reales.
-              </p>
-              <p className="text-gray-500 max-w-3xl mx-auto italic mb-8">
-                Nuestro enfoque combina rigor de modelado, visión de negocio y ejecución técnica para entregar análisis confiables en tiempos compatibles con operación.
-              </p>
-              <div className="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full mx-auto" />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              <FounderCard
-                name="IGNACIO PALOS"
-                role="Experto en Simulación de Procesos"
-                points={[
-                  "Especialista en simulación de eventos discretos (DES) aplicada a sistemas industriales.",
-                  "Enfoque en la automatización del modelado de procesos productivos mediante IA.",
-                  "Experto en transformar sistemas reales en modelos cuantitativos para toma de decisiones operativas.",
-                  "Desarrollo de soluciones que combinan IA y simulación para análisis rápido de escenarios.",
-                  "Orientado a optimización de capacidad, detección de cuellos de botella y mejora de eficiencia."
-                ]}
-                color="blue"
-              />
-
-              <FounderCard
-                name="ADRIÁN NAVARRO"
-                role="Arquitecto de Sistemas de Inteligencia Artificial"
-                points={[
-                  "Experto en diseño, desarrollo y despliegue de soluciones de inteligencia artificial.",
-                  "Especialista en arquitecturas de sistemas IA (Front, Back, CI/CD).",
-                  "Experiencia en sistemas multiagente y orquestación de workflows complejos.",
-                  "Dominio de RAG avanzado y construcción de agentes autónomos.",
-                  "Enfoque en llevar la IA de prototipo a producción de forma robusta y escalable.",
-                  "Trayectoria en proyectos de alto impacto en entornos empresariales exigentes."
-                ]}
-                color="blue"
-              />
-            </div>
-          </div>
-        </section>
         <SectionDivider />
 
         {/* Privacy and Call to Action */}
@@ -486,9 +438,9 @@ function ContactForm() {
   const [error, setError] = useState('');
 
   const contactTypes = [
-    { id: 'collaboration', label: 'Quiero explorar una colaboración o una demostración' },
-    { id: 'investment', label: 'Quiero conocer oportunidades de colaboración financiera' },
-    { id: 'engineer', label: 'Soy ingeniero y quiero aportar experiencia técnica' }
+    { id: 'collaboration', label: 'Tengo feedback técnico o metodológico' },
+    { id: 'investment', label: 'Tengo un caso de uso o escenario que debería considerar' },
+    { id: 'engineer', label: 'Trabajo en industria y puedo validar la solución' }
   ];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -542,9 +494,9 @@ function ContactForm() {
     <div className="glassmorphism p-10 rounded-[2.5rem] border border-blue-500/30 bg-blue-500/[0.03] group relative overflow-hidden" id="apoyanos">
       <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-purple-600/10 blur-[60px] group-hover:bg-purple-600/20 transition-colors" />
       
-      <h3 className="text-lg font-bold uppercase tracking-widest italic text-blue-400 mb-2">Solicitud de colaboración</h3>
+      <h3 className="text-lg font-bold uppercase tracking-widest italic text-blue-400 mb-2">Solicitud</h3>
       <p className="text-gray-300 mb-8 text-sm leading-relaxed">
-        Ingenia es una iniciativa en desarrollo enfocada en modelado y simulación de procesos industriales. Si deseas evaluar una colaboración, explorar una prueba del sistema o aportar experiencia técnica, compártenos tu perfil y te responderemos por correo con una propuesta formal.
+        Este es mi proyecto de TFM en Ingeniería Industrial. Tu feedback académico, profesional o técnico me ayuda a mejorarlo. Comparte tu perspectiva y te responderé con agradecimiento e ideas concretas.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
@@ -597,13 +549,13 @@ function ContactForm() {
 
         {/* Company */}
         <div>
-          <label className="block text-sm font-semibold text-gray-200 mb-2">Empresa</label>
+          <label className="block text-sm font-semibold text-gray-200 mb-2">Organización / Universidad (opcional)</label>
           <input
             type="text"
             name="company"
             value={formData.company}
             onChange={handleChange}
-            placeholder="Nombre de tu empresa"
+            placeholder="Nombre de tu Organización / Universidad (opcional)"
             className="w-full px-4 py-3 rounded-lg bg-white/8 border border-white/15 text-white placeholder-gray-500 focus:border-blue-400 focus:bg-white/12 focus:outline-none transition-all"
           />
         </div>
@@ -615,7 +567,7 @@ function ContactForm() {
             name="message"
             value={formData.message}
             onChange={handleChange}
-            placeholder="Describe brevemente tu caso, contexto o propuesta de colaboración..."
+            placeholder="Cuéntame tu feedback, crítica, sugerencia o caso de uso. ¿Qué mejoraría mi TFM?..."
             rows={4}
             className="w-full px-4 py-3 rounded-lg bg-white/8 border border-white/15 text-white placeholder-gray-500 focus:border-blue-400 focus:bg-white/12 focus:outline-none transition-all resize-none"
           />
@@ -631,7 +583,7 @@ function ContactForm() {
         {/* Success Message */}
         {submitted && (
           <div className="p-4 rounded-lg bg-green-500/15 border border-green-500/30 text-green-200 text-sm animate-pulse">
-            ¡Gracias! Hemos recibido tu solicitud y te responderemos en breve.
+            ¡Gracias! He recibido tu feedback y te responderé en breve.
           </div>
         )}
 

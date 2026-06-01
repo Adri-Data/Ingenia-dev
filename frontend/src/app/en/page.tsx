@@ -233,36 +233,7 @@ export default function EnglishHomePage() {
               <p className="text-gray-500 max-w-3xl mx-auto italic mb-8">Our approach combines modeling rigor, business vision and technical execution to deliver reliable analysis in timeframes compatible with operations.</p>
               <div className="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full mx-auto" />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              <FounderCard
-                name="IGNACIO PALOS"
-                role="Process Simulation Expert"
-                accent="blue"
-                points={[
-                  'Specialist in discrete-event simulation (DES) applied to industrial systems.',
-                  'Focused on automating process modeling through AI.',
-                  'Transforms real systems into quantitative models for operational decision-making.',
-                  'Develops solutions that combine AI and simulation for fast scenario analysis.',
-                  'Oriented to capacity optimization, bottleneck detection and efficiency improvement.'
-                ]}
-              />
-              <FounderCard
-                name="ADRIÁN NAVARRO"
-                role="AI Systems Architect"
-                accent="purple"
-                points={[
-                  'Expert in the design, development and deployment of AI solutions.',
-                  'Specialist in AI system architectures (front, back and CI/CD).',
-                  'Experience in multi-agent systems and orchestration of complex workflows.',
-                  'Skilled in advanced RAG and autonomous agent construction.',
-                  'Focus on taking AI from prototype to production in a robust and scalable way.',
-                  'Track record in high-impact projects in demanding enterprise environments.'
-                ]}
-              />
-            </div>
-          </div>
-        </section>
-
+       
         <SectionDivider />
 
         <section id="privacy" className="py-32">
