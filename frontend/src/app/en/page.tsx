@@ -233,7 +233,8 @@ export default function EnglishHomePage() {
               <p className="text-gray-500 max-w-3xl mx-auto italic mb-8">Our approach combines modeling rigor, business vision and technical execution to deliver reliable analysis in timeframes compatible with operations.</p>
               <div className="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full mx-auto" />
             </div>
-       
+          </div>
+        </section>
         <SectionDivider />
 
         <section id="privacy" className="py-32">
@@ -264,9 +265,6 @@ export default function EnglishHomePage() {
             </div>
           </div>
         </section>
-
-        <SectionDivider />
-
         <footer className="container mx-auto px-6 py-12 max-w-[96rem] border-t border-white/5 flex flex-wrap justify-center gap-8 md:gap-16">
           <FooterIcon icon={<Database className="w-5 h-5" />} text="Powered by JaamSim" />
           <FooterIcon icon={<ShieldCheck className="w-5 h-5" />} text="Secure environment" />
